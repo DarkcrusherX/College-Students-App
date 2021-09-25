@@ -103,7 +103,7 @@ export default class EditStudent extends Component {
         console.log(student);
         axios.post('http://localhost:5000/student/update/'+ this.props.match.params.id,student)
             .then(res => console.log(res.data));
-        window.location = '/';
+        window.location = '/studentlist';
     }
 
     render(){

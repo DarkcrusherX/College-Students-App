@@ -18,7 +18,7 @@ function App() {
       <div className="container">
         <Navbar/>
         <br/>
-        <Route path= "/" exact component={StudentList} />
+        <Route path= "/studentlist" exact component={StudentList} />
         <Route path= "/collegelist" exact component={CollegeList} />
         <Route path= "/editstudent/:id" component={EditStudent} />
         <Route path= "/editcollege/:id" component={EditCollege} />

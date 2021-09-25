@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-
+import SearchFeature from './SearchFeature';
 const Student = props => (
     <tr>
         <td>{props.student.ID}</td>
@@ -22,7 +22,8 @@ export default class StudentList extends Component {
         super(props);
 
         this.deleteStudent = this.deleteStudent.bind(this);
-        this.state = {students: []};
+        this.state = {students: [] , studentscopy: []};
+        this.updateSearch = this.updateSearch.bind(this);
 
     }
     componentDidMount(){
@@ -43,6 +44,20 @@ export default class StudentList extends Component {
         })
     }
 
+    updateSearch(SearchVar){
+        axios.get('http://localhost:5000/student/')
+            .then(response => {
+                this.setState({studentscopy: response.data})
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        this.setState({
+            students: this.state.studentscopy.filter(el => (el.ID.toLowerCase().includes(SearchVar.toLowerCase()) || el.Name.toLowerCase().includes(SearchVar.toLowerCase()) 
+            || el.Year_Of_Batch.toString().trim().toLowerCase().includes(SearchVar.toLowerCase()) || el.College_ID.toLowerCase().includes(SearchVar.toLowerCase()) || el.Skills.toLowerCase().includes(SearchVar.toLowerCase())))
+        })
+    }
+
     StudentList(){
         return this.state.students.map(currentstudent => {
             return <Student student= {currentstudent} deleteStudent = {this.deleteStudent} key = {currentstudent._id}/>;
@@ -53,6 +68,7 @@ export default class StudentList extends Component {
         return (
             <div>
                 <h3>Student List</h3>
+                <SearchFeature placeholder="Search Any Attribute Here......" handleChange = {(e) => this.updateSearch(e.target.value)} />
                 <table className="table">
                     <thead className="thead-light">
                         <tr>
