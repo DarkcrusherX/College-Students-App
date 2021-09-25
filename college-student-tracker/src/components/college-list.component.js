@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import SearchFeature from './SearchFeature';
 import SearchCollege from './SearchCollege';
+import { Pie } from 'react-chartjs-2';
 
 const College = props => (
     <tr>
@@ -27,12 +28,16 @@ export default class CollegeList extends Component {
         super(props);
 
         this.deleteCollege = this.deleteCollege.bind(this);
-        this.state = {Colleges: [], Collegescopy: []};
+        this.state = {Colleges: [], Collegescopy: [], forgraph: [] , GraphDatavals: []};
         this.updateSearch = this.updateSearch.bind(this);
         this.Feature = '';
         this.AttributeSearch = '';
         this.GraphData = this.GraphData.bind(this);
         this.FindSimilarCollege = this.FindSimilarCollege.bind(this);
+        this.labels = [];
+        this.data = [];
+        this.GraphClick = this.GraphClick.bind(this);
+        this.element = 0;
     
     }
     componentDidMount(){
@@ -149,6 +154,84 @@ export default class CollegeList extends Component {
      
     }
 
+    GraphData(target){
+
+        axios.get('http://localhost:5000/college/')
+            .then(response => {
+                this.setState({forgraph: response.data})
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        const backgroundcolor=  ['rgba(255, 99, 132, 0.2)','rgba(54, 162, 235, 0.2)','rgba(255, 206, 86, 0.2)','rgba(75, 192, 192, 0.2)','rgba(153, 102, 255, 0.2)','rgba(255, 159, 64, 0.2)'];
+        const bordercolor=  ['rgba(255, 99, 132, 1)','rgba(54, 162, 235, 1)','rgba(255, 206, 86, 1)','rgba(75, 192, 192, 1)','rgba(153, 102, 255, 1)','rgba(255, 159, 64, 1)'];
+        this.data = [];
+        this.labels = [];
+        for (let item of this.state.forgraph){
+            if(target === "City"){
+                if(this.labels.includes(item.City)){
+                    var index = this.labels.indexOf(item.City);
+                    this.data[index] += 1;
+                }
+                else{
+                    this.labels.push(item.City);
+                    this.data.push(1);
+                }
+            }  
+            else if(target === "State"){
+                if(this.labels.includes(item.State)){
+                    var index = this.labels.indexOf(item.State);
+                    this.data[index] += 1;
+                }
+                else{
+                    this.labels.push(item.State);
+                    this.data.push(1);
+                }
+            }
+            else if(target === "Country"){
+                if(this.labels.includes(item.Country)){
+                    var index = this.labels.indexOf(item.Country);
+                    this.data[index] += 1;
+                }
+                else{
+                    this.labels.push(item.Country);
+                    this.data.push(1);
+                }
+            }
+            else if(target === "Year_Founded"){
+                if(this.labels.includes(item.Year_Founded)){
+                    var index = this.labels.indexOf(item.Year_Founded);
+                    this.data[index] += 1;
+                }
+                else{
+                    this.labels.push(item.Year_Founded);
+                    this.data.push(1);
+                }
+            }
+            else if(target === "Courses"){
+                var courseworks = item.Courses.toString().toLowerCase().trim().split(',');
+                for (let c of courseworks){
+                    if(this.labels.includes(c.trim())){
+                        var index = this.labels.indexOf(c.trim());
+                        this.data[index] += 1;
+                    }
+                    else{
+                        this.labels.push(c.trim());
+                        this.data.push(1);
+                    }
+                }
+            }
+      
+        }
+
+        this.setState({GraphDatavals: { labels: this.labels , datasets:[{ label: 'Chart', data: this.data, backgroundColor:backgroundcolor, borderColor: bordercolor}]}});
+
+    }
+
+    GraphClick(e){
+        this.updateSearch(this.labels[e].toString().trim().toLowerCase());
+    }
+
     CollegeList(){
         return this.state.Colleges.map(currentCollege => {
             return <College college= {currentCollege} deleteCollege = {this.deleteCollege} key = {currentCollege._id}/>;
@@ -200,12 +283,19 @@ export default class CollegeList extends Component {
                             <option name="City" value="City">City</option>
                             <option name="State" value="State">State</option>
                             <option name="Country" value="Country">Country</option>
-                            <option name="Number of Students" value="Number_Of_Students">Number of Students</option>
                             <option name="Courses" value="Courses">Courses</option>
                         </optgroup>
                     </select>  
-                             
+                <Pie 
+                    data = {this.state.GraphDatavals}
+                    options ={{onClick: (e,element) => { if(element.length>0){this.GraphClick(element[0].index)}}  }}
+                    />           
+                
             </div>
         )
     }
 }
+
+// this.updateSearch(this.labels[element[0].index])
+
+// function(evt, element){ if(element.length !== 0){ this.GraphClick(element[0].index) }; }
