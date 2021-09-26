@@ -296,9 +296,9 @@ export default class CollegeList extends Component {
                 <h6>Double Click on the slice to see all the colleges belonging to it........</h6>  
                 <Pie 
                     data = {this.state.GraphDatavals}
-                    options ={{onClick: (e,element) => { if(element.length>0){this.GraphClick(element[0].index)}}  }}
-                    width={50}
-                    height={50}
+                    options ={{onClick: (e,element) => { if(element.length>0){this.GraphClick(element[0].index)}} , responsive: true,
+                    maintainAspectRatio: true  }}
+                    width= {30}
                     />           
                 
             </div>

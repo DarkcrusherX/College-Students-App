@@ -9,28 +9,18 @@ import EditStudent from "./components/edit-student.component";
 import EditCollege from "./components/edit-college.component";
 import CreateStudent from "./components/create-student.component";
 import CreateCollege from "./components/create-college.component";
-import './images/classroom.jpg';
 import './App.css';
 
-import {makeStyles} from "@material-ui/core/styles";
-const useStyles = makeStyles({
-  root: {
-    height: "100vh",
-    background: "linear-gradient(45deg, #fd91aa 30%, #fc9f6d 80%)",
-    alignItems: 'center',
-    justifyContent:"center"
-  }
-});
-
-
-
-
+// style ={ { backgroundImage: "url('https://png.pngtree.com/thumb_back/fh260/back_our/20190625/ourmid/pngtree-pink-yellow-parallel-twill-background-image_262471.jpg')"}}
 function App() {
-  const classes = useStyles();
   return (
     <Router> 
+      <div>
       <div className="container">
         <img src="/classroom.jpg" alt="classroom" className="classroom"/>
+        <img src="/studying.jpg" alt="studying" className="classroom"/>
+        <img src="/girl.jpg" alt="girl" className="classroom"/>
+        <img src="/handsup.jpg" alt="handsup" className="classroom"/>
 
         <Navbar/>
         <br/>
@@ -40,6 +30,7 @@ function App() {
         <Route path= "/editcollege/:id" component={EditCollege} />
         <Route path= "/createcollege" component={CreateCollege} />
         <Route path= "/createstudent" component={CreateStudent} />
+      </div>
       </div>
     </Router>
   );
