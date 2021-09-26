@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import SearchFeature from './SearchFeature';
+import {Button} from '@mui/material';
 const Student = props => (
     <tr>
         <td>{props.student.ID}</td>
@@ -11,7 +12,7 @@ const Student = props => (
         <td>{props.student.Skills}</td>
         <td>{props.student.Date_Of_Birth.substring(0,10)}</td>
         <td>
-            <Link to={"/editstudent/"+ props.student._id}><button type="button">edit</button></Link> | <button onClick={() => {props.deleteStudent(props.student._id)}}>delete</button>
+            <Link to={"/editstudent/"+ props.student._id}><Button variant="contained" color="success">Edit</Button></Link> | <Button variant="contained" color="error" onClick={() => {props.deleteStudent(props.student._id)}}>Delete</Button>
         </td>
     </tr>
 )

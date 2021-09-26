@@ -6,6 +6,7 @@ const SearchCollege = (props)=>{
         className='search'
         placeholder={props.placeholder}
         onChange = {props.SimilarCollege}
+        style={{justifyContent: 'right'}}
         
         />
     )

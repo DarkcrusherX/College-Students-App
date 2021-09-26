@@ -107,7 +107,7 @@ export default class EditCollege extends Component {
         console.log(college);
         axios.post('http://localhost:5000/college/update/'+ this.props.match.params.id,college)
             .then(res => console.log(res.data));
-        window.location = '/collegelist';
+        window.location = '/';
     }
 
     render(){

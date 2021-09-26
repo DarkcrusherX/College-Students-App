@@ -12,7 +12,6 @@ export default class CreateCollege extends Component {
         this.onChangeCity = this.onChangeCity.bind(this);
         this.onChangeState = this.onChangeState.bind(this);
         this.onChangeCountry = this.onChangeCountry.bind(this);
-        this.onChangeNumber_Of_Students = this.onChangeNumber_Of_Students.bind(this);
         this.onChangeCourses = this.onChangeCourses.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
@@ -25,6 +24,7 @@ export default class CreateCollege extends Component {
             Country: '',
             Number_Of_Students: 0,
             Courses: '',
+            students: [],
         }
 
     }
@@ -59,11 +59,6 @@ export default class CreateCollege extends Component {
             Country: e.target.value
         });
     }
-    onChangeNumber_Of_Students(e) {
-        this.setState({
-            Number_Of_Students: e.target.value
-        });
-    }
     onChangeCourses(e) {
         this.setState({
             Courses: e.target.value
@@ -72,6 +67,19 @@ export default class CreateCollege extends Component {
 
     onSubmit(e){
         e.preventDefault();
+        axios.get('http://localhost:5000/student/')
+            .then(response => {
+                this.setState({students: response.data})
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        var nostudents = 0;
+        for (let item of this.state.students){
+            if(item.College_ID === this.state.ID){
+                nostudents += 1;
+            }
+        }
 
         const college = {
             ID: this.state.ID,
@@ -80,7 +88,7 @@ export default class CreateCollege extends Component {
             City: this.state.City,
             State: this.state.State,
             Country: this.state.Country,
-            Number_Of_Students: this.state.Number_Of_Students,
+            Number_Of_Students: nostudents,
             Courses: this.state.Courses
         }
         
@@ -149,15 +157,6 @@ export default class CreateCollege extends Component {
                             className="form-control"
                             value={this.state.Country}
                             onChange={this.onChangeCountry}
-                            />
-                    </div>
-                    <div className ="form-group">
-                        <label>Number Of Students: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.Number_Of_Students}
-                            onChange={this.onChangeNumber_Of_Students}
                             />
                     </div>
                     <div className ="form-group">

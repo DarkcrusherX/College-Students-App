@@ -4,6 +4,7 @@ import axios from 'axios';
 import SearchFeature from './SearchFeature';
 import SearchCollege from './SearchCollege';
 import { Pie } from 'react-chartjs-2';
+import {Button} from '@mui/material';
 
 const College = props => (
     <tr>
@@ -17,7 +18,7 @@ const College = props => (
         <td>{props.college.Courses}</td>
 
         <td>
-            <Link to={"/editcollege/"+ props.college._id}><button type="button">edit</button></Link> | <button onClick={() => {props.deleteCollege(props.college._id)}}>delete</button>
+            <Link to={"/editcollege/"+ props.college._id}><Button variant="contained" color="success" >Edit</Button></Link> | <Button variant="contained" color="error" onClick={() => {props.deleteCollege(props.college._id)}}>Delete</Button>
         </td>
     </tr>
 )
@@ -48,6 +49,7 @@ export default class CollegeList extends Component {
             .catch((error) => {
                 console.log(error);
             })
+    
     }
 
     deleteCollege(id){
@@ -156,21 +158,22 @@ export default class CollegeList extends Component {
 
     GraphData(target){
 
-        axios.get('http://localhost:5000/college/')
-            .then(response => {
-                this.setState({forgraph: response.data})
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        // axios.get('http://localhost:5000/college/')
+        //     .then(response => {
+        //         this.setState({forgraph: response.data})
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
         const backgroundcolor=  ['rgba(255, 99, 132, 0.2)','rgba(54, 162, 235, 0.2)','rgba(255, 206, 86, 0.2)','rgba(75, 192, 192, 0.2)','rgba(153, 102, 255, 0.2)','rgba(255, 159, 64, 0.2)'];
         const bordercolor=  ['rgba(255, 99, 132, 1)','rgba(54, 162, 235, 1)','rgba(255, 206, 86, 1)','rgba(75, 192, 192, 1)','rgba(153, 102, 255, 1)','rgba(255, 159, 64, 1)'];
         this.data = [];
         this.labels = [];
-        for (let item of this.state.forgraph){
+        var index = 0;
+        for (let item of this.state.Colleges){
             if(target === "City"){
                 if(this.labels.includes(item.City)){
-                    var index = this.labels.indexOf(item.City);
+                    index = this.labels.indexOf(item.City);
                     this.data[index] += 1;
                 }
                 else{
@@ -180,7 +183,7 @@ export default class CollegeList extends Component {
             }  
             else if(target === "State"){
                 if(this.labels.includes(item.State)){
-                    var index = this.labels.indexOf(item.State);
+                    index = this.labels.indexOf(item.State);
                     this.data[index] += 1;
                 }
                 else{
@@ -190,7 +193,7 @@ export default class CollegeList extends Component {
             }
             else if(target === "Country"){
                 if(this.labels.includes(item.Country)){
-                    var index = this.labels.indexOf(item.Country);
+                    index = this.labels.indexOf(item.Country);
                     this.data[index] += 1;
                 }
                 else{
@@ -200,7 +203,7 @@ export default class CollegeList extends Component {
             }
             else if(target === "Year_Founded"){
                 if(this.labels.includes(item.Year_Founded)){
-                    var index = this.labels.indexOf(item.Year_Founded);
+                    index = this.labels.indexOf(item.Year_Founded);
                     this.data[index] += 1;
                 }
                 else{
@@ -212,7 +215,7 @@ export default class CollegeList extends Component {
                 var courseworks = item.Courses.toString().toLowerCase().trim().split(',');
                 for (let c of courseworks){
                     if(this.labels.includes(c.trim())){
-                        var index = this.labels.indexOf(c.trim());
+                        index = this.labels.indexOf(c.trim());
                         this.data[index] += 1;
                     }
                     else{
@@ -241,10 +244,11 @@ export default class CollegeList extends Component {
     render(){
 
         return (
-            <div>
-                <h3>College List</h3>
+            <div style={{justifyContent:'center', alignItems:'center', backgroundColor: "#fd91aa 30%, #fc9f6d 80%"}}>
+
+                <h1 id="h1" align="center" >College List</h1>
                 <SearchFeature placeholder="Search Any Attribute Here......" handleChange = {(e) => this.updateSearch(e.target.value)} />
-                <select class="selectpicker" onChange = {(e) => this.Feature = e.target.value} data-style="btn-info" name="selectpicker">
+                <select className="selectpicker" onChange = {(e) => this.Feature = e.target.value} data-style="btn-info" name="selectpicker">
                 <optgroup label="Select Feature">
 
                     <option name="ID" value="ID">ID</option>
@@ -257,7 +261,7 @@ export default class CollegeList extends Component {
                     <option name="Courses" value="Courses">Courses</option>
                 </optgroup>
                  </select>
-                <SearchCollege placeholder="Enter College Name..." SimilarCollege = {(e) => this.FindSimilarCollege(e.target.value)} />
+                <SearchCollege placeholder="Enter College Name..." maxLength={1000} style={{ position: 'absolute', right: 5}} SimilarCollege = {(e) => this.FindSimilarCollege(e.target.value)} />
                 <table className="table">
                     <thead className="thead-light">
                         <tr>
@@ -275,8 +279,9 @@ export default class CollegeList extends Component {
                         {this.CollegeList()}
                     </tbody>
                 </table>
-                <h3>Pie Charts</h3>
-                    <select class="selectpicker" onChange = {(e) => this.GraphData(e.target.value)} data-style="btn-info" name="selectpicker">
+                <h1 id="h1" align="center">PieChart</h1>
+                <h4>Select the feature you need to plot the PieChart on........</h4>
+                    <select className="selectpicker" onChange = {(e) => this.GraphData(e.target.value)} data-style="btn-info" name="selectpicker">
                         <optgroup label="Select Feature">
                             <option name="" value="">Select Feature</option>
                             <option name="Year Founded" value="Year_Founded">Year Founded</option>
@@ -289,13 +294,11 @@ export default class CollegeList extends Component {
                 <Pie 
                     data = {this.state.GraphDatavals}
                     options ={{onClick: (e,element) => { if(element.length>0){this.GraphClick(element[0].index)}}  }}
+                    width={50}
+                    height={50}
                     />           
                 
             </div>
         )
     }
 }
-
-// this.updateSearch(this.labels[element[0].index])
-
-// function(evt, element){ if(element.length !== 0){ this.GraphClick(element[0].index) }; }

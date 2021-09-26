@@ -6,7 +6,9 @@ const SearchFeature = (props)=>{
         className='search'
         placeholder={props.placeholder}
         onChange = {props.handleChange}
-        
+        maxLength={1000}
+        height= {150}
+        style={{justifyContent: 'right'}}
         />
     )
 }
