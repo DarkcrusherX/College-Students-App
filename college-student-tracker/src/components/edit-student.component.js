@@ -14,7 +14,6 @@ export default class EditStudent extends Component {
         this.onChangeSkills = this.onChangeSkills.bind(this);
         this.onChangeDate_Of_Birth = this.onChangeDate_Of_Birth.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.updateNumber = this.updateNumber.bind(this);
 
         this.state = {
             ID : '',
@@ -26,12 +25,23 @@ export default class EditStudent extends Component {
             IDs: [],
             colleges:[],
             college: [],
-            id: ''
+            id: '',
+            currentid : '',
+            students: []
         }
 
     }
 
     componentDidMount(){
+
+        axios.get('http://localhost:5000/student/')
+            .then(response => {
+                this.setState({students: response.data})
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
         axios.get('http://localhost:5000/student/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
@@ -92,21 +102,6 @@ export default class EditStudent extends Component {
             Date_Of_Birth: date
         });
     }
-    updateNumber() {
-        console.log(this.state.colleges);
-        if (this.state.colleges.length > 0){
-
-            var current = this.state.colleges[Number(this.state.College_ID)-1];
-            current.Number_Of_Students -= 1;
-    
-            axios.post('http://localhost:5000/college/update/'+ this.state.colleges[Number(this.state.College_ID)-1]._id,current)
-                .then(res => console.log(res.data))
-                .catch((error) => {
-                    console.log(error,'something');
-                }) ; 
-    
-            } 
-    }
 
     onSubmit(e){
         e.preventDefault();
@@ -131,7 +126,27 @@ export default class EditStudent extends Component {
                     console.log(error,'something');
                 }) ; 
     
-            }   
+        }   
+        var studentcollegeid = ''
+        for (let s of this.state.students){
+            if(s._id === this.props.match.params.id)
+            {
+                studentcollegeid = s.College_ID;
+            }
+        }       
+
+        if (this.state.colleges.length > 0 && studentcollegeid !== ''){
+
+            var current1 = this.state.colleges[Number(studentcollegeid)-1];
+            current1.Number_Of_Students -= 1;
+    
+            axios.post('http://localhost:5000/college/update/'+ this.state.colleges[Number(studentcollegeid)-1]._id,current1)
+                .then(res => console.log(res.data))
+                .catch((error) => {
+                    console.log(error,'something');
+                }) ; 
+    
+            } 
         
         
         console.log(student);
@@ -143,7 +158,6 @@ export default class EditStudent extends Component {
     render(){
         return (
             <div>
-                {this.updateNumber()}
                 <h3>Edit Student Profile</h3>
                 <form onSubmit={this.onSubmit}>
                 <div className ="form-group">
@@ -166,7 +180,7 @@ export default class EditStudent extends Component {
                     </div>
                     <div className ="form-group">
                         <label>Year of Batch: </label>
-                        <input type="text"
+                        <input type="number"
                             required
                             className="form-control"
                             value={this.state.Year_Of_Batch}

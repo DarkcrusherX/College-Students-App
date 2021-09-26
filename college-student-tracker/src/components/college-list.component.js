@@ -247,8 +247,10 @@ export default class CollegeList extends Component {
             <div style={{justifyContent:'center', alignItems:'center', backgroundColor: "#fd91aa 30%, #fc9f6d 80%"}}>
 
                 <h1 id="h1" align="center" >College List</h1>
+                <h4>Enter the keyword to classify colleges based on any feature.........</h4>            
                 <SearchFeature placeholder="Search Any Attribute Here......" handleChange = {(e) => this.updateSearch(e.target.value)} />
-                <select className="selectpicker" onChange = {(e) => this.Feature = e.target.value} data-style="btn-info" name="selectpicker">
+                <h4>Select a feature and enter a college name to get colleges similar to it..........</h4>  
+                <select className="selectpicker" onChange = {(e) => this.Feature = e.target.value} data-style="btn-info" name="selectpicker">  
                 <optgroup label="Select Feature">
 
                     <option name="ID" value="ID">ID</option>
@@ -261,7 +263,7 @@ export default class CollegeList extends Component {
                     <option name="Courses" value="Courses">Courses</option>
                 </optgroup>
                  </select>
-                <SearchCollege placeholder="Enter College Name..." maxLength={1000} style={{ position: 'absolute', right: 5}} SimilarCollege = {(e) => this.FindSimilarCollege(e.target.value)} />
+                <SearchCollege fullWidth placeholder="Enter College Name..." maxLength={1000} style={{ position: 'absolute', right: 5}} SimilarCollege = {(e) => this.FindSimilarCollege(e.target.value)} />
                 <table className="table">
                     <thead className="thead-light">
                         <tr>
@@ -291,6 +293,7 @@ export default class CollegeList extends Component {
                             <option name="Courses" value="Courses">Courses</option>
                         </optgroup>
                     </select>  
+                <h6>Double Click on the slice to see all the colleges belonging to it........</h6>  
                 <Pie 
                     data = {this.state.GraphDatavals}
                     options ={{onClick: (e,element) => { if(element.length>0){this.GraphClick(element[0].index)}}  }}

@@ -131,7 +131,7 @@ export default class CreateStudent extends Component {
                     </div>
                     <div className ="form-group">
                         <label>Year of Batch: </label>
-                        <input type="text"
+                        <input type="number"
                             required
                             className="form-control"
                             value={this.state.Year_Of_Batch}

@@ -23,7 +23,7 @@ export default class StudentList extends Component {
         super(props);
 
         this.deleteStudent = this.deleteStudent.bind(this);
-        this.state = {students: [] , studentscopy: []};
+        this.state = {students: [] , studentscopy: [] , colleges: []};
         this.updateSearch = this.updateSearch.bind(this);
 
     }
@@ -35,9 +35,39 @@ export default class StudentList extends Component {
             .catch((error) => {
                 console.log(error);
             })
+        axios.get('http://localhost:5000/college/')
+        .then(response => {
+            if (response.data.length > 0) {
+                this.setState({
+                    colleges : response.data
+                })
+            }
+        })
     }
 
     deleteStudent(id){
+        var collegeid = '';
+        for (let item of this.state.students){
+            if(item._id === id){
+                collegeid = item.College_ID;
+            }
+        }
+
+
+        if (this.state.colleges.length > 0){
+
+            var current = this.state.colleges[Number(collegeid)-1];
+            console.log(current,Number(collegeid)-1,collegeid);
+            current.Number_Of_Students -= 1;
+    
+            axios.post('http://localhost:5000/college/update/'+ this.state.colleges[Number(collegeid)-1]._id,current)
+                .then(res => console.log(res.data))
+                .catch((error) => {
+                    console.log(error,'something');
+                }) ; 
+    
+        }  
+
         axios.delete('http://localhost:5000/student/'+id)
             .then(res => console.log(res.data));
         this.setState({
@@ -68,7 +98,8 @@ export default class StudentList extends Component {
     render(){
         return (
             <div>
-                <h3>Student List</h3>
+                <h1 id="h1" align="center" >Student List</h1>
+                <h4>Enter the keyword to classify students based on any feature.........</h4>  
                 <SearchFeature placeholder="Search Any Attribute Here......" handleChange = {(e) => this.updateSearch(e.target.value)} />
                 <table className="table">
                     <thead className="thead-light">

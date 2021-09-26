@@ -9,9 +9,9 @@ import EditStudent from "./components/edit-student.component";
 import EditCollege from "./components/edit-college.component";
 import CreateStudent from "./components/create-student.component";
 import CreateCollege from "./components/create-college.component";
+// import './App.css';
 
 import {makeStyles} from "@material-ui/core/styles";
-// display: 'flex'
 const useStyles = makeStyles({
   root: {
     height: "100vh",
@@ -20,6 +20,9 @@ const useStyles = makeStyles({
     justifyContent:"center"
   }
 });
+
+
+
 
 function App() {
   const classes = useStyles();

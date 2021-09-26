@@ -8,7 +8,7 @@ const SearchFeature = (props)=>{
         onChange = {props.handleChange}
         maxLength={1000}
         height= {150}
-        style={{justifyContent: 'right'}}
+        style={{display: 'flex', justifyContent: 'right'}}
         />
     )
 }
