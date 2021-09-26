@@ -13,7 +13,7 @@
   }
 } */
 
-.App-header {
+/* .App-header {
   background-color: #0854eb;
   min-height: 100vh;
   display: flex;
@@ -22,6 +22,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: rgb(255, 255, 255);
+} */
+
+.classroom{
+  height: 150x;
+  width: 300px;
 }
 
 /* .App-link {

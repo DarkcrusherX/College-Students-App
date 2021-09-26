@@ -9,7 +9,8 @@ import EditStudent from "./components/edit-student.component";
 import EditCollege from "./components/edit-college.component";
 import CreateStudent from "./components/create-student.component";
 import CreateCollege from "./components/create-college.component";
-// import './App.css';
+import './images/classroom.jpg';
+import './App.css';
 
 import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles({
@@ -29,6 +30,8 @@ function App() {
   return (
     <Router> 
       <div className="container">
+        <img src="/classroom.jpg" alt="classroom" className="classroom"/>
+
         <Navbar/>
         <br/>
         <Route path= "/" exact component={CollegeList} />
