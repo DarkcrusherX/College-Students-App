@@ -32,7 +32,7 @@ export default class CreateStudent extends Component {
 
     componentDidMount(){
 
-        axios.get('http://localhost:5000/college/')
+        axios.get('http://3.139.102.122:5000/college/')
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
@@ -92,7 +92,7 @@ export default class CreateStudent extends Component {
         var current = this.state.colleges[Number(this.state.College_ID)-1];
         current.Number_Of_Students += 1;
 
-        axios.post('http://localhost:5000/college/update/'+ this.state.colleges[Number(this.state.College_ID)-1]._id,current)
+        axios.post('http://3.139.102.122:5000/college/update/'+ this.state.colleges[Number(this.state.College_ID)-1]._id,current)
             .then(res => console.log(res.data))
             .catch((error) => {
                 console.log(error,'something');
@@ -100,7 +100,7 @@ export default class CreateStudent extends Component {
 
         }    
 
-        axios.post('http://localhost:5000/student/add/',student)
+        axios.post('http://3.139.102.122:5000/student/add/',student)
             .then(res => console.log(res.data));
         window.location = '/';
     }

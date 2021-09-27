@@ -43,7 +43,7 @@ export default class CollegeList extends Component {
     
     }
     componentDidMount(){
-        axios.get('http://localhost:5000/college/')
+        axios.get('http://3.139.102.122:5000/college/')
             .then(response => {
                 this.setState({Colleges: response.data})
             })
@@ -54,7 +54,7 @@ export default class CollegeList extends Component {
     }
 
     deleteCollege(id){
-        axios.delete('http://localhost:5000/college/'+id)
+        axios.delete('http://3.139.102.122:5000/college/'+id)
             .then(res => console.log(res.data));
         this.setState({
             Colleges: this.state.Colleges.filter(el => el._id !== id)
@@ -62,7 +62,7 @@ export default class CollegeList extends Component {
     }
 
     reset(){
-    axios.get('http://localhost:5000/college/')
+    axios.get('http://3.139.102.122:5000/college/')
         .then(response => {
             this.setState({Collegescopy: response.data, Colleges: response.data})
         })
@@ -73,7 +73,7 @@ export default class CollegeList extends Component {
     updateSearch(SearchVar){
 
 
-        // axios.get('http://localhost:5000/college/')
+        // axios.get('http://3.139.102.122:5000/college/')
         //     .then(response => {
         //         this.setState({Colleges: response.data})
         //     })
@@ -92,7 +92,7 @@ export default class CollegeList extends Component {
 
     FindSimilarCollege(collegename){
 
-        axios.get('http://localhost:5000/college/')
+        axios.get('http://3.139.102.122:5000/college/')
             .then(response => {
                 this.setState({Collegescopy: response.data})
             })
@@ -163,7 +163,7 @@ export default class CollegeList extends Component {
 
     GraphData(target){
 
-        // axios.get('http://localhost:5000/college/')
+        // axios.get('http://3.139.102.122:5000/college/')
         //     .then(response => {
         //         this.setState({forgraph: response.data})
         //     })
@@ -268,7 +268,7 @@ export default class CollegeList extends Component {
                 </select>
                 <SearchCollege fullWidth placeholder="Enter College Name..." maxLength={1000} style={{ position: 'absolute', right: 5}} SimilarCollege = {(e) => this.FindSimilarCollege(e.target.value)} />
                 <h4>Enter the keyword to classify colleges based on any feature.........</h4>            
-                <td><SearchFeature placeholder="Search Any Attribute Here......" handleChange = {(e) => this.updateSearch(e.target.value)} /> | <Button variant="contained" color="warning" onClick={() => {this.reset()}}>Reset Search</Button></td>
+                <SearchFeature placeholder="Search Any Attribute Here......" handleChange = {(e) => this.updateSearch(e.target.value)} /> | <Button variant="contained" color="warning" onClick={() => {this.reset()}}>Reset Search</Button>
                 <table className="table">
                     <thead className="thead-light">
                         <tr>

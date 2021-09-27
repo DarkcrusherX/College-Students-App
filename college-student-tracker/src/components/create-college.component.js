@@ -67,7 +67,7 @@ export default class CreateCollege extends Component {
 
     onSubmit(e){
         e.preventDefault();
-        axios.get('http://localhost:5000/student/')
+        axios.get('http://3.139.102.122:5000/student/')
             .then(response => {
                 this.setState({students: response.data})
             })
@@ -93,7 +93,7 @@ export default class CreateCollege extends Component {
         }
         
         console.log(college);
-        axios.post('http://localhost:5000/college/add/',college)
+        axios.post('http://3.139.102.122:5000/college/add/',college)
             .then(res => console.log(res.data));
         window.location = '/';
     }
