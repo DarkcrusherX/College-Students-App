@@ -31,6 +31,7 @@ export default class CollegeList extends Component {
         this.deleteCollege = this.deleteCollege.bind(this);
         this.state = {Colleges: [], Collegescopy: [], forgraph: [] , GraphDatavals: []};
         this.updateSearch = this.updateSearch.bind(this);
+        this.reset = this.reset.bind(this);
         this.Feature = '';
         this.AttributeSearch = '';
         this.GraphData = this.GraphData.bind(this);
@@ -59,21 +60,30 @@ export default class CollegeList extends Component {
             Colleges: this.state.Colleges.filter(el => el._id !== id)
         })
     }
+
+    reset(){
+    axios.get('http://localhost:5000/college/')
+        .then(response => {
+            this.setState({Collegescopy: response.data, Colleges: response.data})
+        })
+        .catch((error) => {
+            console.log(error);
+        })       
+    }
     updateSearch(SearchVar){
 
 
-
-        axios.get('http://localhost:5000/college/')
-            .then(response => {
-                this.setState({Collegescopy: response.data})
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        // axios.get('http://localhost:5000/college/')
+        //     .then(response => {
+        //         this.setState({Colleges: response.data})
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
 
         this.AttributeSearch = SearchVar;
         this.setState({
-            Colleges: this.state.Collegescopy.filter(el => (el.ID.toLowerCase().includes(SearchVar.toLowerCase()) || el.Name.toLowerCase().includes(SearchVar.toLowerCase()) 
+            Colleges: this.state.Colleges.filter(el => (el.ID.toLowerCase().includes(SearchVar.toLowerCase()) || el.Name.toLowerCase().includes(SearchVar.toLowerCase()) 
             || el.Year_Founded.toString().trim().toLowerCase().includes(SearchVar.toLowerCase()) || el.City.toLowerCase().includes(SearchVar.toLowerCase()) || el.State.toLowerCase().includes(SearchVar.toLowerCase()) ||
             el.Country.toLowerCase().includes(SearchVar.toLowerCase()) || el.Number_Of_Students.toString().trim().toLowerCase().includes(SearchVar.toLowerCase())
             || el.Courses.toLowerCase().includes(SearchVar.toLowerCase())) )
@@ -98,17 +108,7 @@ export default class CollegeList extends Component {
             }
         }
         if(flag === 1){
-            const SearchVar = this.AttributeSearch;
-            if (SearchVar !== ''){
 
-            this.setState({
-                Collegescopy: this.state.Collegescopy.filter(el => (el.ID.toLowerCase().includes(SearchVar.toLowerCase()) || el.Name.toLowerCase().includes(SearchVar.toLowerCase()) 
-                || el.Year_Founded.toString().trim().toLowerCase().includes(SearchVar.toLowerCase()) || el.City.toLowerCase().includes(SearchVar.toLowerCase()) || el.State.toLowerCase().includes(SearchVar.toLowerCase()) ||
-                el.Country.toLowerCase().includes(SearchVar.toLowerCase()) || el.Number_Of_Students.toString().trim().toLowerCase().includes(SearchVar.toLowerCase())
-                || el.Courses.toLowerCase().includes(SearchVar.toLowerCase())) )
-            })
-
-            }
             if (this.Feature !== ""){
                 if(this.Feature === "ID")
                 {
@@ -131,6 +131,11 @@ export default class CollegeList extends Component {
                         Colleges: this.state.Collegescopy.filter(el => (el.State === TheCollege.State))
                     })                       
                 }
+                else if(this.Feature === "Country"){
+                    this.setState({
+                        Colleges: this.state.Collegescopy.filter(el => (el.Country === TheCollege.Country))
+                    })                       
+                }
                 else if(this.Feature === "Year_Founded"){
                     this.setState({
                         Colleges: this.state.Collegescopy.filter(el => ( el.Year_Founded.toString().trim() === TheCollege.Year_Founded.toString().trim()))
@@ -139,7 +144,7 @@ export default class CollegeList extends Component {
                 else if(this.Feature === "Number_Of_Students"){
 
                     this.setState({
-                        Colleges: this.state.Collegescopy.filter(el => ( Math.abs(el.Number_Of_Students - TheCollege.Number_Of_Students) < 100 ))
+                        Colleges: this.state.Collegescopy.filter(el => ( Math.abs(el.Number_Of_Students - TheCollege.Number_Of_Students) < 5 ))
                     })                        
                 }
                 else if(this.Feature === "Courses") {
@@ -247,8 +252,6 @@ export default class CollegeList extends Component {
             <div style={{justifyContent:'center', alignItems:'center', backgroundColor: "#fd91aa 30%, #fc9f6d 80%"}}>
 
                 <h1 id="h1" align="center" >College List</h1>
-                <h4>Enter the keyword to classify colleges based on any feature.........</h4>            
-                <SearchFeature placeholder="Search Any Attribute Here......" handleChange = {(e) => this.updateSearch(e.target.value)} />
                 <h4>Select a feature and enter a college name to get colleges similar to it..........</h4>  
                 <select className="selectpicker" onChange = {(e) => this.Feature = e.target.value} data-style="btn-info" name="selectpicker">  
                 <optgroup label="Select Feature">
@@ -262,8 +265,10 @@ export default class CollegeList extends Component {
                     <option name="Number of Students" value="Number_Of_Students">Number of Students</option>
                     <option name="Courses" value="Courses">Courses</option>
                 </optgroup>
-                 </select>
+                </select>
                 <SearchCollege fullWidth placeholder="Enter College Name..." maxLength={1000} style={{ position: 'absolute', right: 5}} SimilarCollege = {(e) => this.FindSimilarCollege(e.target.value)} />
+                <h4>Enter the keyword to classify colleges based on any feature.........</h4>            
+                <td><SearchFeature placeholder="Search Any Attribute Here......" handleChange = {(e) => this.updateSearch(e.target.value)} /> | <Button variant="contained" color="warning" onClick={() => {this.reset()}}>Reset Search</Button></td>
                 <table className="table">
                     <thead className="thead-light">
                         <tr>
