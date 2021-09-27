@@ -43,7 +43,7 @@ export default class CollegeList extends Component {
     
     }
     componentDidMount(){
-        axios.get('http://3.139.102.122:5000/college/')
+        axios.get('http://3.129.146.55:5000/college/')
             .then(response => {
                 this.setState({Colleges: response.data})
             })
@@ -54,7 +54,7 @@ export default class CollegeList extends Component {
     }
 
     deleteCollege(id){
-        axios.delete('http://3.139.102.122:5000/college/'+id)
+        axios.delete('http://3.129.146.55:5000/college/'+id)
             .then(res => console.log(res.data));
         this.setState({
             Colleges: this.state.Colleges.filter(el => el._id !== id)
@@ -62,7 +62,7 @@ export default class CollegeList extends Component {
     }
 
     reset(){
-    axios.get('http://3.139.102.122:5000/college/')
+    axios.get('http://3.129.146.55:5000/college/')
         .then(response => {
             this.setState({Collegescopy: response.data, Colleges: response.data})
         })
@@ -73,7 +73,7 @@ export default class CollegeList extends Component {
     updateSearch(SearchVar){
 
 
-        // axios.get('http://3.139.102.122:5000/college/')
+        // axios.get('http://3.129.146.55:5000/college/')
         //     .then(response => {
         //         this.setState({Colleges: response.data})
         //     })
@@ -92,7 +92,7 @@ export default class CollegeList extends Component {
 
     FindSimilarCollege(collegename){
 
-        axios.get('http://3.139.102.122:5000/college/')
+        axios.get('http://3.129.146.55:5000/college/')
             .then(response => {
                 this.setState({Collegescopy: response.data})
             })
@@ -163,7 +163,7 @@ export default class CollegeList extends Component {
 
     GraphData(target){
 
-        // axios.get('http://3.139.102.122:5000/college/')
+        // axios.get('http://3.129.146.55:5000/college/')
         //     .then(response => {
         //         this.setState({forgraph: response.data})
         //     })

@@ -34,7 +34,7 @@ export default class EditStudent extends Component {
 
     componentDidMount(){
 
-        axios.get('http://3.139.102.122:5000/student/')
+        axios.get('http://3.129.146.55:5000/student/')
             .then(response => {
                 this.setState({students: response.data})
             })
@@ -42,7 +42,7 @@ export default class EditStudent extends Component {
                 console.log(error);
             })
 
-        axios.get('http://3.139.102.122:5000/student/' + this.props.match.params.id)
+        axios.get('http://3.129.146.55:5000/student/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
                     ID : response.data.ID,
@@ -59,7 +59,7 @@ export default class EditStudent extends Component {
 
 
 
-        axios.get('http://3.139.102.122:5000/college/')
+        axios.get('http://3.129.146.55:5000/college/')
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
@@ -120,7 +120,7 @@ export default class EditStudent extends Component {
             var current = this.state.colleges[Number(this.state.College_ID)-1];
             current.Number_Of_Students += 1;
     
-            axios.post('http://3.139.102.122:5000/college/update/'+ this.state.colleges[Number(this.state.College_ID)-1]._id,current)
+            axios.post('http://3.129.146.55:5000/college/update/'+ this.state.colleges[Number(this.state.College_ID)-1]._id,current)
                 .then(res => console.log(res.data))
                 .catch((error) => {
                     console.log(error,'something');
@@ -140,7 +140,7 @@ export default class EditStudent extends Component {
             var current1 = this.state.colleges[Number(studentcollegeid)-1];
             current1.Number_Of_Students -= 1;
     
-            axios.post('http://3.139.102.122:5000/college/update/'+ this.state.colleges[Number(studentcollegeid)-1]._id,current1)
+            axios.post('http://3.129.146.55:5000/college/update/'+ this.state.colleges[Number(studentcollegeid)-1]._id,current1)
                 .then(res => console.log(res.data))
                 .catch((error) => {
                     console.log(error,'something');
@@ -150,7 +150,7 @@ export default class EditStudent extends Component {
         
         
         console.log(student);
-        axios.post('http://3.139.102.122:5000/student/update/'+ this.props.match.params.id,student)
+        axios.post('http://3.129.146.55:5000/student/update/'+ this.props.match.params.id,student)
             .then(res => console.log(res.data));
         window.location = '/studentlist';
     }

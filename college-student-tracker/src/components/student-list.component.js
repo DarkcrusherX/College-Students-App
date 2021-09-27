@@ -28,14 +28,14 @@ export default class StudentList extends Component {
 
     }
     componentDidMount(){
-        axios.get('http://3.139.102.122:5000/student/')
+        axios.get('http://3.129.146.55:5000/student/')
             .then(response => {
                 this.setState({students: response.data})
             })
             .catch((error) => {
                 console.log(error);
             })
-        axios.get('http://3.139.102.122:5000/college/')
+        axios.get('http://3.129.146.55:5000/college/')
         .then(response => {
             if (response.data.length > 0) {
                 this.setState({
@@ -60,7 +60,7 @@ export default class StudentList extends Component {
             console.log(current,Number(collegeid)-1,collegeid);
             current.Number_Of_Students -= 1;
     
-            axios.post('http://3.139.102.122:5000/college/update/'+ this.state.colleges[Number(collegeid)-1]._id,current)
+            axios.post('http://3.129.146.55:5000/college/update/'+ this.state.colleges[Number(collegeid)-1]._id,current)
                 .then(res => console.log(res.data))
                 .catch((error) => {
                     console.log(error,'something');
@@ -68,7 +68,7 @@ export default class StudentList extends Component {
     
         }  
 
-        axios.delete('http://3.139.102.122:5000/student/'+id)
+        axios.delete('http://3.129.146.55:5000/student/'+id)
             .then(res => console.log(res.data));
         this.setState({
             students: this.state.students.filter(el => el._id !== id)
@@ -76,7 +76,7 @@ export default class StudentList extends Component {
     }
 
     updateSearch(SearchVar){
-        axios.get('http://3.139.102.122:5000/student/')
+        axios.get('http://3.129.146.55:5000/student/')
             .then(response => {
                 this.setState({studentscopy: response.data})
             })

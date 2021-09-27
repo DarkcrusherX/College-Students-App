@@ -30,7 +30,7 @@ export default class EditCollege extends Component {
     }
 
     componentDidMount(){
-        axios.get('http://3.139.102.122:5000/college/' + this.props.match.params.id)
+        axios.get('http://3.129.146.55:5000/college/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
                     ID : response.data.ID,
@@ -105,7 +105,7 @@ export default class EditCollege extends Component {
         
         
         console.log(college);
-        axios.post('http://3.139.102.122:5000/college/update/'+ this.props.match.params.id,college)
+        axios.post('http://3.129.146.55:5000/college/update/'+ this.props.match.params.id,college)
             .then(res => console.log(res.data));
         window.location = '/';
     }
