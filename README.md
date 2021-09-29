@@ -2,6 +2,8 @@
 
 A MERN Based WebApp which keeps in track of two datasets : student and college details which are stored in Mangodb atlas platform. The app is launched in an AWS instance. Axios is used to make get,post,update and delete requests.
 
+Link to app: http://3.129.146.55:3000
+
 ![WebApp](https://github.com/DarkcrusherX/College-Students-App/blob/main/images/webapp.png)
 
 ## Features 
